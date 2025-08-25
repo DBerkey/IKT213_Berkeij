@@ -26,12 +26,12 @@ def get_camera_outputs():
     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     cap.release()
 
-    with open("assignment_1. Ex. nnoori/IKT213_noori/assignment_1/solutions/camera_outputs.txt", "w+", encoding="utf-8") as f:
+    with open("assignment_1/solutions/camera_outputs.txt", "w+", encoding="utf-8") as f:
         f.write(f"FPS: {fps}\n")
         f.write(f"Width: {width}\n")
         f.write(f"Height: {height}\n")
 
 if __name__ == "__main__":
-    image = cv2.imread("assignment_1. Ex. nnoori/IKT213_noori/assignment_1/lena-1.png")
+    image = cv2.imread("assignment_1/lena-1.png")
     print_image_information(image)
     get_camera_outputs()
