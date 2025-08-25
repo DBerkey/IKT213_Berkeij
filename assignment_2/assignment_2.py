@@ -7,36 +7,101 @@ import cv2
 import numpy as np
 
 def padding(img, borderWidth):
+    """
+    Adds a border to the input image.
+
+    img: The input image.
+    borderWidth: The width of the border to add.
+    return: The padded image.
+    """
     return cv2.copyMakeBorder(img, borderWidth, borderWidth, borderWidth, borderWidth, cv2.BORDER_REFLECT)
 
 def crop(img, x_0, x_1,  y_0, y_1):
+    """
+    Crops the input image to the specified coordinates.
+
+    img: The input image.
+    x_0: The starting x-coordinate.
+    x_1: The ending x-coordinate.
+    y_0: The starting y-coordinate.
+    y_1: The ending y-coordinate.
+    return: The cropped image.
+    """
     height, width, _ = img.shape
     modifiedX_1 = [height - x_1 if 0 < x_1 else height]
     modifiedY_1 = [width - y_1 if 0 < y_1 else width]
     return img[x_0:modifiedX_1[0], y_0:modifiedY_1[0]]
 
 def resize(img, new_width, new_height):
+    """
+    Resizes the input image to the specified dimensions.
+
+    img: The input image.
+    new_width: The desired width.
+    new_height: The desired height.
+    return: The resized image.
+    """
     return cv2.resize(img, (new_width, new_height))
 
 def copy(img, emptyPictureArray):
+    """
+    Copies the input image to the empty picture array.
+
+    img: The input image.
+    emptyPictureArray: The array to copy the image into.
+    return: The copied image.
+    """
     emptyPictureArray = np.copy(img)
     return emptyPictureArray
 
 def grey_scale(img):
+    """
+    Converts the input image to grayscale.
+
+    img: The input image.
+    return: The grayscale image.
+    """
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 def hsv(img):
+    """
+    Converts the input image to HSV color space.
+
+    img: The input image.
+    return: The HSV image.
+    """
     return cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 def hue_shift(img, emptyPictureArray, hue):
+    """
+    Shifts the hue of the input image.
+
+    img: The input image.
+    emptyPictureArray: The array to store the result.
+    hue: The hue shift value.
+    return: The hue-shifted image.
+    """
     shifted = (img.astype(np.int16) + hue) % 256
     result = shifted.astype(np.uint8)
     return result
 
 def smoothing(img):
+    """
+    Applies Gaussian smoothing to the input image.
+
+    img: The input image.
+    return: The smoothed image.
+    """
     return cv2.GaussianBlur(img, ksize=(15, 15), sigmaX=0, borderType=cv2.BORDER_DEFAULT)
 
 def rotation(img, rotation_angle):
+    """
+    Rotates the input image by the specified angle.
+
+    img: The input image.
+    rotation_angle: The angle to rotate the image.
+    return: The rotated image.
+    """
     height, width = img.shape[:2]
     center = (width // 2, height // 2)
     rotation_matrix = cv2.getRotationMatrix2D(center, rotation_angle, 1.0)
