@@ -151,3 +151,9 @@ if __name__ == "__main__":
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     # FLANN also found these two images as the same, similar to BFMatcher with SIFT
+
+    # Final conclusion:
+    # ORB works better in recognizing curved lines and is faster, but 
+    # SIFT is more accurate when tasked with straight lines and corners
+    # Both BFMatcher and FLANN work well with SIFT, and no significant difference was found
+    # between them in this case.
