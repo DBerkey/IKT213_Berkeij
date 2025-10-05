@@ -81,8 +81,15 @@ def hue_shift(img, emptyPictureArray, hue):
     hue: The hue shift value.
     return: The hue-shifted image.
     """
-    shifted = (img.astype(np.int16) + hue) % 256
-    result = shifted.astype(np.uint8)
+    # Convert RGB to HSV
+    hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    
+    # Apply hue shift to the hue channel (channel 0)
+    # OpenCV uses 0-179 range for hue, so we need to handle wrapping properly
+    hsv_img[:, :, 0] = (hsv_img[:, :, 0].astype(np.int16) + hue) % 180
+    
+    # Convert back to RGB
+    result = cv2.cvtColor(hsv_img, cv2.COLOR_HSV2BGR)
     return result
 
 def smoothing(img):
@@ -119,7 +126,7 @@ if __name__ == "__main__":
     hsv_img = hsv(img)
     hue_shifted_img = hue_shift(img, emptyPictureArray, 50)
     smoothed_img = smoothing(img)
-    rotated_img_90 = rotation(img, 90)
+    rotated_img_90 = rotation(img, -90)
     rotated_img_180 = rotation(img, 180)
 
     cv2.imwrite("assignment_2/solutions/padded.png", padded_img)
