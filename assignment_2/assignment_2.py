@@ -74,23 +74,25 @@ def hsv(img):
 
 def hue_shift(img, emptyPictureArray, hue):
     """
-    Shifts the hue of the input image.
+    Shifts the color values of the input RGB image.
 
     img: The input image.
     emptyPictureArray: The array to store the result.
-    hue: The hue shift value.
-    return: The hue-shifted image.
+    hue: The color shift value to add to all RGB channels.
+    return: The color-shifted image.
     """
-    # Convert RGB to HSV
-    hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    # Work directly in RGB space to shift color values
+    # Convert to float to avoid overflow issues
+    result = img.astype(np.float32)
     
-    # Apply hue shift to the hue channel (channel 0)
-    # OpenCV uses 0-179 range for hue, so we need to handle wrapping properly
-    hsv_img[:, :, 0] = (hsv_img[:, :, 0].astype(np.int16) + hue) % 180
+    # Add hue value to all RGB channels
+    result = result + hue
     
-    # Convert back to RGB
-    result = cv2.cvtColor(hsv_img, cv2.COLOR_HSV2BGR)
-    return result
+    # Clip values to valid range [0, 255]
+    result = np.clip(result, 0, 255)
+    
+    # Convert back to uint8
+    return result.astype(np.uint8)
 
 def smoothing(img):
     """
